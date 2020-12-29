@@ -5,16 +5,20 @@ read -p "What is the ip of your router? ex:192.168.1.1" routerIP
 read -p "What is the ip of your domain name server? ex:192.168.1.1" dnsIP
 read -p "What is the name of the first interface (for Vlan)?" firstInterface
 read -p "What is the name of the second interface (for Vlan)?" secondInterface
+read -p "Do you want to install open-vm-tools? answer=yes" installOpenVMTools
 
 #install open-vm-tools
-echo install open-vm-tools
-sudo apt-get install open-vm-tools -y
+if [ $installOpenVMTools == "yes"]; then
+  echo install open-vm-tools
+  sudo apt-get install open-vm-tools -y
+fi
 
 #install static ip
 echo install static ip
+sudo systemctl stop dhcpcd
+sudo echo "interface eth0 \nstatic ip_address=$staticIP \nstatic routers=$routerIP \nstatic domain_name_servers=$dnsIP" >> /etc/dhcpcd.conf
 sudo systemctl enable dhcpcd
 sudo systemctl start dhcpcd
-sudo echo "interface eth0 \nstatic ip_address=$staticIP \nstatic routers=$routerIP \nstatic domain_name_servers=$dnsIP" >> /etc/dhcpcd.conf
 
 #install ssh
 echo install ssh
@@ -24,7 +28,7 @@ sudo systemctl enable ssh
 
 #install fail2ban
 echo install fail2ban
-sudo apt install fail2ban
+sudo apt install fail2ban -y
 sudo systemctl start fail2ban
 sudo systemctl enable fail2ban
 
