@@ -23,6 +23,7 @@ sudo echo "static domain_name_servers=$dnsIP" >> /etc/dhcpcd.conf
 sudo systemctl enable dhcpcd
 sudo systemctl start dhcpcd
 sudo ifconfig eth0 $staticIP netmask 255.255.255.0
+sleep 10
 
 #install ssh
 echo install ssh
