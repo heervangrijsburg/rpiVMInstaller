@@ -8,7 +8,7 @@ read -p "What is the name of the second interface (for Vlan)?" secondInterface
 read -p "Do you want to install open-vm-tools? answer=yes" installOpenVMTools
 
 #install open-vm-tools
-if [ $installOpenVMTools == "yes"]; then
+if [ "$installOpenVMTools" = "yes" ]; then
   echo install open-vm-tools
   sudo apt-get install open-vm-tools -y
 fi
