@@ -17,7 +17,6 @@ sudo systemctl start ssh
 sudo systemctl enable ssh
 
 #install fail2ban
-
 sudo apt install fail2ban
 sudo systemctl start fail2ban
 sudo systemctl enable fail2ban
