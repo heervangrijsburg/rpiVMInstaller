@@ -1,6 +1,6 @@
 #!/bin/bash
 
-read -p "What do you want to be your static ip (also enter subnet)? ex:192.168.1.1/24" staticIP
+read -p "What do you want to be your static ip (also enter subnet)? ex:192.168.1.1" staticIP
 read -p "What is the ip of your router? ex:192.168.1.1" routerIP
 read -p "What is the ip of your domain name server? ex:192.168.1.1" dnsIP
 read -p "What is the name of the first interface (for Vlan)?" firstInterface
@@ -17,11 +17,12 @@ fi
 echo install static ip
 sudo systemctl stop dhcpcd
 sudo echo "interface eth0" >> /etc/dhcpcd.conf
-sudo echo "static ip_address=$staticIP" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=$staticIP"/24 >> /etc/dhcpcd.conf
 sudo echo "static routers=$routerIP" >> /etc/dhcpcd.conf
 sudo echo "static domain_name_servers=$dnsIP" >> /etc/dhcpcd.conf
 sudo systemctl enable dhcpcd
 sudo systemctl start dhcpcd
+sudo ifconfig eth0 $staticIP netmask 255.255.255.0
 
 #install ssh
 echo install ssh
