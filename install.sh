@@ -16,7 +16,10 @@ fi
 #install static ip
 echo install static ip
 sudo systemctl stop dhcpcd
-sudo echo "interface eth0 \nstatic ip_address=$staticIP \nstatic routers=$routerIP \nstatic domain_name_servers=$dnsIP" >> /etc/dhcpcd.conf
+sudo echo "interface eth0" >> /etc/dhcpcd.conf
+sudo echo "static ip_address=$staticIP" >> /etc/dhcpcd.conf
+sudo echo "static routers=$routerIP" >> /etc/dhcpcd.conf
+sudo echo "static domain_name_servers=$dnsIP" >> /etc/dhcpcd.conf
 sudo systemctl enable dhcpcd
 sudo systemctl start dhcpcd
 
